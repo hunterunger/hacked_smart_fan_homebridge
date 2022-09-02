@@ -1,16 +1,15 @@
 import gpiozero
 from time import sleep
 
+# relay trigger is attached to GPIO2
 on_trigger = gpiozero.LED(2)
 
 
 class Fan:
-
     def __init__(self):
         self.on_state = False
 
     def on(self):
-        print(f"Trying to turn on the {self.on_state}")
         if not self.on_state:
             on_trigger.on()
             sleep(0.4)
@@ -18,7 +17,6 @@ class Fan:
             self.on_state = True
 
     def off(self):
-        print(f"Trying to turn off the {self.on_state}")
         if self.on_state:
             on_trigger.on()
             sleep(0.4)
@@ -34,5 +32,6 @@ class Fan:
 
 if __name__ == "__main__":
     fan = Fan()
-
     fan.on()
+    sleep(4)
+    fan.off()

@@ -12,6 +12,10 @@ import {
 } from "homebridge";
 import axios from 'axios'
 
+// EDIT YOUR SERVER ADDRESS HERE (Raspberry Pi with the server running)
+const server_address = "http://192.168.1.180:5000"
+
+
 let hap: HAP;
 
 /*
@@ -39,7 +43,7 @@ class Fan implements AccessoryPlugin {
         this.switchService.getCharacteristic(hap.Characteristic.On)
             .on(CharacteristicEventTypes.GET, async (callback: CharacteristicGetCallback) => {
                 try {
-                    const request = await axios.get("http://192.168.1.180:5000/get-fan");
+                    const request = await axios.get(server_address+"/get-fan");
 
                     const state = request.data.state;
 
@@ -60,7 +64,7 @@ class Fan implements AccessoryPlugin {
                 this.fanOn = value as boolean;
 
                 await axios.post(
-                    "http://192.168.1.180:5000/set-fan",
+                    server_address+"/set-fan",
                     undefined,
                     { params: { state: this.fanOn ? 1 : 0 } });
 
